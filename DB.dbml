@@ -104,5 +104,5 @@ Table JobPosition {
   demand_curation varchar
   cross_division bool
   project_id int [ref: > Project.ID]
-  image_url url
+  image_url url
 }
