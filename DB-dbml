@@ -1,0 +1,108 @@
+Table Client {
+  ID varchar [pk]
+  name varchar
+  user_id varchar [ref: > User.ID]
+  division varchar
+  details varchar
+  high_growth_client bool
+  image_url url
+}
+
+Table User {
+  ID varchar [pk]
+  name varchar
+  email varchar
+  password varchar
+  role_id varchar [ref: > Role.ID]
+}
+
+Table Role {
+  ID varchar [pk]
+  name varchar
+}
+
+Table UserRole {
+  roleID varchar [ref: > Role.ID]
+  userID varchar [ref: > User.ID]
+}
+
+Table Pipeline {
+  expected_salary float
+  pipeline_since date
+  days_on_pipeline int
+  billing_start_date date
+}
+
+Table Employee {
+  ID varchar [pk]
+  name varchar
+  status varchar
+  email varchar
+  cellphone int
+  job_title varchar
+  job_grade varchar
+  joining_date date
+  division varchar
+  tech_stack varchar
+  gender varchar
+  skills_employee varchar
+  propose_action varchar
+  reason_current_state varchar
+  image_url url
+}
+
+Table Billing {
+  billing_since date
+  days_on_billing int
+  salary float
+  last_client_id varchar [ref: > Client.ID]
+  actual_client_id varchar [ref: > Client.ID]
+  work_hours int
+}
+
+Table Bench {
+  salary float
+  bench_since date
+  last_client_id varchar [ref: > Client.ID]
+  actual_client_id varchar [ref: > Client.ID]
+  work_hours int
+  billing_start_date date
+}
+
+Table Opening {
+  ID varchar [pk]
+  status_opening varchar
+  open_date date
+  close_date date
+  close_reason varchar
+  hours_required int
+  employee_id varchar [ref: > Employee.ID]
+}
+
+Table Project {
+  ID varchar [pk]
+  name varchar
+  status int
+  revenue float
+  owner_id varchar [ref: > User.ID]
+  client_id varchar [ref: > Client.ID]
+  region varchar
+  posting_date date
+  exp_closure_date date
+  image_url url
+}
+
+Table JobPosition {
+  ID int [pk]
+  name varchar
+  bill_rate float
+  posting_type varchar
+  division varchar
+  skills_position varchar
+  region varchar
+  exclusivity varchar
+  demand_curation varchar
+  cross_division bool
+  project_id int [ref: > Project.ID]
+  image_url url
+}
