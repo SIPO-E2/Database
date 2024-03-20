@@ -1,105 +1,233 @@
-Table Role {
-  ID varchar [pk]
+//Role
+Table role{
+  id varchar [primary key]
   name varchar
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
 }
 
-Table User {
-  ID varchar [pk]
+//User
+Table user{
+  id varchar [primary key]
   name varchar
   email varchar
-  password varchar
-  role_id varchar [ref: > Role.ID]
+  password password
+  //role Role
+
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
 }
 
-Table Client {
-  ID varchar [pk]
+//userRole
+
+Table userRole {
+  user_id varchar [ref: > user.id]
+  role_id varchar [ref: > role.id]
+}
+
+
+//Client
+Table client{
+  id varchar [primary key]
   name varchar
-  user_id varchar [ref: > User.ID]
+  //user User
+  user_id varchar [ref: > user.id]
   division varchar
   details varchar
   high_growth_client bool
-  image_url varchar
+  image url
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
 }
 
-Table Employee {
-  ID varchar [pk]
+//Project
+Table project{
+  id varchar [primary key]
+  name varchar
+  status int 
+  revenue float
+
+  //owner User
+  owner_id varchar [ref: > user.id]
+  //client Client
+  client_id varchar [ref: > client.id]
+  
+  region varchar
+  posting_date date
+  exp_closure_date date
+  job_position jobPosition[]
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
+}
+
+
+//Employee
+Table employee{
+  // Abstract table representing generic employee information
+  id varchar [primary key]
   name varchar
   status varchar
   email varchar
-  cellphone int
+  celphone int
   job_title varchar
   job_grade varchar
   joining_date date
   division varchar
   tech_stack varchar
   gender varchar
-  skills_employee varchar
+  skills_employee varchar[]
   propose_action varchar
   reason_current_state varchar
-  image_url varchar
+  image_url url
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
 }
 
-Table Project {
-  ID varchar [pk]
-  name varchar
-  status int
-  revenue float
-  owner_id varchar [ref: > User.ID]
-  client_id varchar [ref: > Client.ID]
-  region varchar
-  posting_date date
-  exp_closure_date date
-  image_url varchar
-}
 
-Table JobPosition {
-  ID int [pk]
-  name varchar
-  bill_rate float
-  posting_type varchar
-  division varchar
-  skills_position varchar
-  region varchar
-  exclusivity varchar
-  demand_curation varchar
-  cross_division bool
-  project_id int [ref: > Project.ID]
-  image_url varchar
-}
-
-Table Opening {
-  ID varchar [pk]
-  status_opening varchar
-  open_date date
-  close_date date
-  close_reason varchar
-  hours_required int
-  employee_id varchar [ref: > Employee.ID]
-  job_position_id int [ref: > JobPosition.ID]
-}
-
-Table Pipeline {
+//Pipeline
+Table pipeline{
+  employee_inherits varchar [ref: > employee.id]
   expected_salary float
   pipeline_since date
   days_on_pipeline int
   billing_start_date date
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
 }
 
-Table Billing {
+//Billing
+Table billing{
+  employee_inherits varchar [ref: > employee.id]
   billing_since date
   days_on_billing int
   salary float
-  last_client_id varchar [ref: > Client.ID]
-  actual_client_id varchar [ref: > Client.ID]
+
+  //last_client Client
+  last_client_id varchar [ref: > client.id]
+  //actual_client Client
+  actual_client_id varchar [ref: > client.id]
+  
   work_hours int
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
+
 }
 
-Table Bench {
+//Bench
+Table bench{
+  employee_inherits varchar [ref: > employee.id]
   salary float
   bench_since date
-  last_client_id varchar [ref: > Client.ID]
-  actual_client_id varchar [ref: > Client.ID]
+
+  //last_client Client
+  //actual_client Client
+  last_client_id varchar [ref: > client.id]  
+  actual_client_id varchar [ref: > client.id]
+  
   work_hours int
   billing_start_date date
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
 }
+
+//Opening
+Table opening{
+  id varchar [primary key]
+
+  
+  open_date date
+  close_date date
+  close_reason varchar
+  hours_required int
+  
+  //employee Employee
+  employee_id varchar [ref: > employee.id]
+
+  job_position_id int [ref: > jobPosition.id]
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
+}
+
+
+
+//Job Position
+
+Enum Exclusivity {
+   Commited
+   NonCommited
+}
+
+Enum DemandCuration {
+   Strategic
+   Commited
+   Open
+}
+
+
+
+
+Table jobPosition{
+  id int [primary key]
+  name varchar
+  bill_rate float
+  posting_type varchar
+  division varchar
+  skills_position varchar[]
+  region varchar
+
+   exclusivity Exclusivity
+   demand_curation DemandCuration
+
+
+  cross_division bool
+  openings_list Opening[]
+  
+  //project_ Project
+  project_id varchar [ref: > project.id]
+
+  image url
+
+  //Creation 
+  createdAt date
+  updatedAt date
+  deleteAt date
+  activeDB bool
+}
+
 
